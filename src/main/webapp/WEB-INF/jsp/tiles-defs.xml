@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+        "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+
+<tiles-definitions>
+
+    <definition name="template.default" template="/WEB-INF/jsp/templates/default.jsp">
+        <put-attribute name="title" value="Fake APP"/>
+        <put-attribute name="navigation" value="/WEB-INF/jsp/fragments/navigation.jsp"/>
+        <put-attribute name="footer" value="/WEB-INF/jsp/fragments/footer.jsp"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/views/index.jsp"/>
+    </definition>
+
+    <definition name="registration" extends="template.default">
+        <put-attribute name="body" value="/WEB-INF/jsp/views/registration.jsp"/>
+    </definition>
+
+    <definition name="done" extends="template.default">
+        <put-attribute name="body" value="/WEB-INF/jsp/views/done.jsp"/>
+    </definition>
+
+</tiles-definitions>

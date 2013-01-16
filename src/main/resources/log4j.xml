@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration debug="false"
+	xmlns:log4j='http://jakarta.apache.org/log4j/'>
+
+	<appender name="consoleAppender" class="org.apache.log4j.ConsoleAppender">
+		<param name="Target" value="System.out" />
+		<param name="Encoding" value="UTF-8" />
+		<layout class="org.apache.log4j.EnhancedPatternLayout">
+			<param name="ConversionPattern"
+				value="%d{ISO8601} %p %c - %t %X{username} %X{ipAddress} - %m%n" />
+		</layout>
+	</appender>
+
+    <logger name="security">
+   		<level value="INFO" />
+   	</logger>
+
+	<logger name="performance">
+		<level value="INFO" />
+	</logger>
+
+	<logger name="alarming">
+		<level value="ERROR" />
+	</logger>
+
+	<logger name="auditing">
+		<level value="INFO" />
+	</logger>
+
+	<logger name="org.springframework">
+		<level value="WARN" />
+	</logger>
+
+	<logger name="org.springframework.transaction">
+		<level value="WARN" />
+	</logger>
+
+	<logger name="org.springframework.jms">
+		<level value="WARN" />
+	</logger>
+
+	<logger name="org.springframework.jdbc">
+		<level value="WARN" />
+	</logger>
+
+	<logger name="org.springframework.orm.jpa">
+		<level value="WARN" />
+	</logger>
+
+	<logger name="org.springframework.web">
+		<level value="WARN" />
+	</logger>
+
+	<logger name="org.springframework.security">
+		<level value="WARN" />
+	</logger>
+
+	<logger name="org.apache">
+		<level value="WARN" />
+	</logger>
+
+	<logger name="org.hibernate">
+        <level value="WARN" />
+	</logger>
+
+   <!-- Set to TRACE for logging SQL statement parameters -->
+   <logger name="org.hibernate.type">
+      <level value="WARN" />
+   </logger>
+
+	<logger name="ch.chiodoni">
+		<level value="DEBUG" />
+	</logger>
+
+	<root>
+		<level value="WARN" />
+		<appender-ref ref="consoleAppender" />
+	</root>
+
+</log4j:configuration>

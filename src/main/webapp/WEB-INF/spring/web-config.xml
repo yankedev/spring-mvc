@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:property-placeholder
+            location="classpath:/environments/${ch.chiodoni.environment}.properties"/>
+
+    <mvc:resources mapping="/lib/**" location="/lib/"/>
+    <mvc:resources mapping="/css/**" location="/css/"/>
+    <mvc:resources mapping="/img/**" location="/img/"/>
+    <mvc:resources mapping="/js/**" location="/js/"/>
+
+    <mvc:annotation-driven validator="validator" />
+    <context:component-scan base-package="ch.chiodoni.app.web"/>
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="ch.chiodoni.app.web.security.SetHttpHeaderInterceptor" p:enabled="${security.XSS.enabled}">
+                <property name="headers">
+                    <util:map>
+                        <entry key="XSS-Protection" value="1; mode=block"/>
+                    </util:map>
+                </property>
+            </bean>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="ch.chiodoni.app.web.security.SetHttpHeaderInterceptor"
+                  p:enabled="${security.inframing.enabled}">
+                <property name="headers">
+                    <util:map>
+                        <entry key="X-Frame-Options" value="SAMEORIGIN"/>
+                    </util:map>
+                </property>
+            </bean>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="ch.chiodoni.app.web.security.SetHttpHeaderInterceptor"
+                  p:enabled="${security.transport.enabled}">
+                <property name="headers">
+                    <util:map>
+                        <entry key="Strict-Transport-Security" value="max-age=3000000; includeSubDomains"/>
+                    </util:map>
+                </property>
+            </bean>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="ch.chiodoni.app.web.security.SetHttpHeaderInterceptor" p:enabled="${security.CSP.enabled}">
+                <property name="headers">
+                    <util:map>
+                        <entry key="Content-Security-Policy" value="default-src 'self' https://ajax.googleapis.com; report-uri csp/violation"/>
+                        <!--
+                        <entry key="Content-Security-Policy-Report-Only"
+                               value="default-src 'self'; report-uri csp/monitoring"/>
+                        -->
+                        <!--
+                        <entry key="X-Content-Security-Policy" value="default-src 'self'; report-uri csp/violation"/>
+                        <entry key="X-Content-Security-Policy-Report-Only"
+                               value="default-src 'self'; report-uri csp/monitoring"/>
+                        -->
+                    </util:map>
+                </property>
+            </bean>
+        </mvc:interceptor>
+        <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" p:paramName="lang"/>
+    </mvc:interceptors>
+
+    <bean class="ch.chiodoni.app.web.security.LoggingContentSecurityPolicyViolationStrategy"/>
+
+    <bean id="messageSource"
+          class="org.springframework.context.support.ResourceBundleMessageSource" p:basename="i18n/messages"/>
+
+    <bean id="themeSource" class="org.springframework.ui.context.support.ResourceBundleThemeSource"
+          p:basenamePrefix="themes/"/>
+
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver"/>
+
+    <bean id="themeResolver" class="org.springframework.web.servlet.theme.FixedThemeResolver"
+          p:defaultThemeName="${web.theme}"/>
+
+    <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
+        <property name="definitions">
+            <list>
+                <value>/WEB-INF/jsp/tiles-*.xml</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean name="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"
+          p:validationMessageSource-ref="messageSource"/>
+
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver"
+          p:viewClass="org.springframework.web.servlet.view.tiles2.TilesView"/>
+
+    <util:properties id="settings">
+        <prop key="useCDN">${web.useCDN}</prop>
+        <prop key="useWebTracking">${web.useWebTracking}</prop>
+    </util:properties>
+
+</beans>

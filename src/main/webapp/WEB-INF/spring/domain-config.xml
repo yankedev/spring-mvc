@@ -1,0 +1,63 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+			http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+            http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
+
+    <context:component-scan base-package="ch.chiodoni.app.domain"/>
+
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
+          p:entityManagerFactory-ref="entityManagerFactory" p:defaultTimeout="${tx.timeout}"/>
+
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <jpa:repositories base-package="ch.chiodoni.app.domain" repository-impl-postfix="Impl"/>
+
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="packagesToScan" value="ch.chiodoni.app.domain"/>
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                <property name="database" value="${jpa.database}"/>
+                <property name="databasePlatform" value="${jpa.databasePlatform}"/>
+                <property name="generateDdl" value="${jpa.generateDdl}"/>
+                <property name="showSql" value="${jpa.showSql}"/>
+            </bean>
+        </property>
+        <property name="jpaProperties">
+            <util:properties>
+                <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+                <prop key="hibernate.use_sql_comments">${hibernate.use_sql_comments}</prop>
+                <prop key="hibernate.generate_statistics">${hibernate.generate_statistics}</prop>
+            </util:properties>
+        </property>
+    </bean>
+
+    <jdbc:initialize-database data-source="dataSource" ignore-failures="DROPS" enabled="${db.initialize}">
+        <jdbc:script location="classpath:sql/countries.sql"/>
+    </jdbc:initialize-database>
+
+    <!--
+    <bean class="org.springframework.jdbc.datasource.init.DataSourceInitializer" depends-on="entityManagerFactory" >
+        <property name="dataSource" ref="dataSource"/>
+        <property name="enabled" value="${db.initialize}"/>
+        <property name="databasePopulator">
+            <bean class="org.springframework.jdbc.datasource.init.ResourceDatabasePopulator">
+                <property name="scripts">
+                    <util:list>
+                        <value>classpath:sql/countries.sql</value>
+                    </util:list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+        -->
+</beans>
