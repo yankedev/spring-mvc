@@ -90,6 +90,12 @@
         <cookie-config>
             <name>JSESSIONID</name>
             <http-only>true</http-only>
+            <!-- TODO: secure your session. Not done because developing on HTTP. -->
+            <!--
+            <domain></domain>
+            <path></path>
+            <secure>true</secure>
+            -->
         </cookie-config>
         <tracking-mode>COOKIE</tracking-mode>
     </session-config>
