@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="description" content=""/>
     <meta name="author" content=""/>
+    <meta name="robots" content="noindex,nofollow" />
     <title><spring:message code="text.title"/></title>
 
     <link href="<c:url value='/lib/bootstrap/2.2.2/css/bootstrap.min.css' />" rel="stylesheet"/>

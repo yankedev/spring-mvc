@@ -27,6 +27,12 @@ Alibi use-case
 --------------
 * A multistep user registration
 
+Robot
+-----
+Ensure search engines and crawles to index the app properly, see http://www.robotstxt.org/
+
+Test using: http://tools.seobook.com/robots-txt/
+
 Generating Key Pairs and Certificates for HTTPS
 -----------------------------------------------
 keytool -genkey -alias localhost -keyalg RSA -keysize 1024 -dname "CN=localhost, OU=IT, O=chiodoni, L=Agno, S=Ticino, C=CH" -keypass keyPassword -keystore etc/https.jks -storepass keystorePassword
