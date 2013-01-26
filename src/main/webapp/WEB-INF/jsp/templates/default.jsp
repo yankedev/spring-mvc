@@ -49,7 +49,7 @@
 </head>
 
 <body>
-<div class="navbar navbar-fixed-top navbar-inverse">
+<div class="navbar navbar-inverse">
     <tiles:insertAttribute name="navigation"/>
 </div>
 <div class="container">

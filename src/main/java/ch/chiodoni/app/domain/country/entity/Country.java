@@ -42,7 +42,7 @@ public class Country implements Serializable {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "Country{" +
                 "code='" + code + '\'' +
                 ", name='" + name + '\'' +
                 '}';

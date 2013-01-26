@@ -7,7 +7,7 @@
 <urlrewrite default-match-type="wildcard">
     <rule>
         <from>/</from>
-        <to type="redirect">/registration/</to>
+        <to type="redirect">/rest/registration/</to>
     </rule>
     <rule>
         <from>/**</from>

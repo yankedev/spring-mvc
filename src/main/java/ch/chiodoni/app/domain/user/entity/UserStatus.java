@@ -68,23 +68,20 @@ public enum UserStatus implements Serializable {
         return Arrays.asList(values());
     }
 
-    private UserStatus illegalTransition() {
-        throw new IllegalUserStatusTransition(this);
+    private RuntimeException illegalTransition() {
+        return new IllegalUserStatusTransition(this);
     }
 
     public UserStatus unverified() {
-        illegalTransition();
-        return this;
+        throw illegalTransition();
     }
 
     public UserStatus emailVerified() {
-        illegalTransition();
-        return this;
+        throw illegalTransition();
     }
 
     public UserStatus phoneVerified() {
-        illegalTransition();
-        return this;
+        throw illegalTransition();
     }
 
 }

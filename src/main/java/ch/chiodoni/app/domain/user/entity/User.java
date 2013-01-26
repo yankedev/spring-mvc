@@ -77,6 +77,14 @@ public class User implements Serializable {
         this.id = id;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
     public void setPhone(String phone) {
         this.phone = phone;
     }

@@ -6,19 +6,32 @@ import ch.chiodoni.app.domain.user.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Controller
 public class RegistrationController {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(RegistrationController.class);
+
+    @InitBinder(value = "user")
+    public void customizeConversions(WebDataBinder binder) {
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        df.setLenient(false);
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(df, true));
+    }
 
     @Autowired(required = true)
     private UserRepository userRepository;

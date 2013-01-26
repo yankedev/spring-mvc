@@ -15,6 +15,10 @@
     <definition name="registration" extends="template.default">
         <put-attribute name="body" value="/WEB-INF/jsp/views/registration.jsp"/>
     </definition>
+    <!-- Non dovrebbe essere necessario configurare tiles quando name=jsp. Convention over Configuration! -->
+    <definition name="ng-registration" extends="template.default">
+        <put-attribute name="body" value="/WEB-INF/jsp/views/ng-registration.jsp"/>
+    </definition>
 
     <definition name="done" extends="template.default">
         <put-attribute name="body" value="/WEB-INF/jsp/views/done.jsp"/>

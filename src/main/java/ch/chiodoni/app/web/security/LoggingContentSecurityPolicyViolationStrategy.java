@@ -21,7 +21,7 @@ public class LoggingContentSecurityPolicyViolationStrategy implements ContentSec
         try {
             String violator = request.getRemoteAddr();
             if (StringUtils.hasText(request.getRemoteUser())) {
-                violator = violator + "(" + request.getRemoteAddr() + ")";
+                violator = violator + "(" + request.getRemoteUser() + ")";
             }
             String violation = CharStreams.toString(new InputStreamReader(request.getInputStream(), "UTF-8"));
             Loggers.SECURITY_LOGGER.warn("CSP violation of type " + type + " from ({}): {}", violator, violation);

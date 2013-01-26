@@ -23,7 +23,7 @@
     <http pattern="/lib/**" security="none"/>
     <http pattern="/" security="none"/>
 
-    <http auto-config='true' use-expressions="true" realm="app"
+    <http auto-config="true" use-expressions="true" realm="app"
           authentication-manager-ref="serviceAccountsAuthenticationManager"
           name="APP" pattern="/me">
 
@@ -37,6 +37,7 @@
             <user-service>
                 <user name="andrea.chiodoni@gmail.com" password="123" authorities="user"/>
                 <user name="andrea.chiodoni@post.ch" password="123" authorities="manager"/>
+                <user name="yanke" password="yanke" authorities="manager"/>
             </user-service>
         </authentication-provider>
     </authentication-manager>
